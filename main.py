@@ -30,7 +30,14 @@ def occupy_cell(list_num, cell_num):
     list_num[cell_num] = occupied()
     return list_num
 
-print(is_empty(test_list[1]))
-print(occupy_cell(test_list, 2))
-print(empty_cell(test_list, 2))
+#print(is_empty(test_list[1]))
+#print(occupy_cell(test_list, 2))
+#print(empty_cell(test_list, 2))
+
+block = {'coordinates': [0,0]}
+
+def move_down(block):
+    block['coordinates'][1] = block['coordinates'][1] + 1
+    return(block)
     
+
