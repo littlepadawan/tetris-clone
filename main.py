@@ -49,7 +49,17 @@ def move_down(block, grid):
     except IndexError:
         return(block, 'Hit ground')
 
-
+def move_left(block, grid):
+        try:
+            next_x = grid[block['y']][block['x']-1]
+            if block['x'] > 0 and is_empty(next_x) == True:
+                print('Its empty')
+                block['x'] = block['x']-1
+                return(block, 'Block x-coordinate updated!')
+            else:
+                return(block, 'Collision')
+        except IndexError:
+            return(block, 'You are at a border')
     
     
 
