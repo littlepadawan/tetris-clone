@@ -1,3 +1,6 @@
+import grid
+import time
+
 def occupied():
     # Represents an occupied cell
     return 1
@@ -70,19 +73,32 @@ def move_sideways(direction, block, grid):
     if direction == 'right':
         return move_right(block, grid)
         
+def cell_to_string(cell):
+    # Converts a cell to a string
+    # cell - list index of the cell to convert
+    if is_empty(cell) == True:
+        return(' ')
+    elif is_empty(cell) == False:
+        return('*')
 
+def row_to_string(row):
+    # Converts a row of cells to a string
+    # row - list representing a row on the grid
+    s = ''
+    for cell in row:
+        s = s + cell_to_string(cell)
+    return s
+
+def view_grid(grid):
+    # Prints grid
+    # grid - list of rows
+    s = ''
+    for row in grid:
+        print(row_to_string(row))
+        
 test_grid = [[0,0,0,1,0],[0,0,0,1,0],[0,0,0,0,0]]
 test_list = [0,0,0,0,0,0]
 test_block = {'x': 2, 'y':0}
 
-#print(is_empty(test_list[1]))
-#print(occupy_cell(test_list, 2))
-#print(empty_cell(test_list, 2))            
-
-print(move_down(test_block, test_grid))
-print(move_left(test_block, test_grid))
-print(move_right(test_block, test_grid)) 
-
-#move_sideways('left', test_block, test_grid)
-
-
+print(cell_to_string(test_grid[0][3]))
+print(row_to_string(test_grid[0]))
