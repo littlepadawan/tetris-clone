@@ -5,7 +5,7 @@ def new_grid():
         for y in range(10):    
             grid[x].append(0)
     return grid
-
+    
 def print_lists(a):
     
     for element in a:
