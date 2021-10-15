@@ -1,4 +1,4 @@
-def create_lists():
+def new_grid():
     grid = []
     for x in range(10):
         grid.append([])
