@@ -1,6 +1,9 @@
-import grid
 import time
+from random import randint
 
+starttime = time.time()
+
+tick_rate = 1
 block = {'x': 4, 'y': 0}
 
 def occupied():
@@ -113,6 +116,39 @@ def new_block(grid):
     occupy_cell(grid[new_block['y']], new_block['x'])
     return(block)
 
+def new_grid():
+    grid = []
+    for x in range(10):
+        grid.append([])
+        for y in range(10):    
+            grid[x].append(0)
+    return grid
+    
+def print_lists(a):
+    for element in a:
+        print(element)
+
+def random_user_input():
+    inp = randint(0, 3)
+    if inp is 0:
+        return 'left'
+    elif inp is 1:
+        return 'right'
+    else:
+        return 'down'
+
+def move_block(rand, block, grid):
+    if rand == 'left' or a == 'right':
+        move_sideways(rand, block, grid)
+    else:
+        move_down(block, grid)
+
+
+
+while True:
+    print ("tick")
+    time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
+
+
 test_grid = grid.new_grid()
 test_block = new_block(test_grid)
-
