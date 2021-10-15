@@ -1,11 +1,11 @@
-def create_lists():
+def new_grid():
     grid = []
     for x in range(10):
         grid.append([])
         for y in range(10):    
             grid[x].append(0)
     return grid
-
+    
 def print_lists(a):
     
     for element in a:
