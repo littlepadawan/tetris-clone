@@ -45,26 +45,26 @@ def move_down(block, grid):
 
 def move_left(block, grid):
     # Move block one step left if cell to the left is empty
-            next_x = grid[block['y']][block['x']-1]
-            if block['x'] > 0 and is_empty(next_x) == True:
-                print('Its empty')
-                block['x'] = block['x']-1
-                return(block, 'Block x-coordinate updated!')
-            else:
-                return(block, 'Collision')
+    next_x = grid[block['y']][block['x']-1]
+    if block['x'] > 0 and is_empty(next_x) == True:
+        print('Its empty')
+        block['x'] = block['x']-1
+        return(block, 'Block x-coordinate updated!')
+    else:
+        return(block, 'Collision')
     
 def move_right(block, grid):
     # Move block one step right if cell to the right is empty
-        try:
-            next_x = grid[block['y']][block['x']+1]
-            if block['x'] < len(grid[block['y']]) and is_empty(next_x) == True:
-                print('Its empty')
-                block['x'] = block['x']+1
-                return(block, 'Block x-coordinate updated!')
-            else:
-                return(block, 'Collision')
-        except IndexError:
-            return(block, 'You are at the border')
+    try:
+        next_x = grid[block['y']][block['x']+1]
+        if block['x'] < len(grid[block['y']]) and is_empty(next_x) == True:
+            print('Its empty')
+            block['x'] = block['x']+1
+            return(block, 'Block x-coordinate updated!')
+        else:
+            return(block, 'Collision')
+    except IndexError:
+        return(block, 'You are at the border')
         
 def move_sideways(direction, block, grid):
     # Move block sideways depending on input
@@ -92,13 +92,19 @@ def row_to_string(row):
 def view_grid(grid):
     # Prints grid
     # grid - list of rows
-    s = ''
+    top_line = ' '
+    bottom_line = ' '
+    for x in range(len(grid[0])):
+        top_line = top_line + '_'
+        bottom_line = bottom_line + '_'
+    print(top_line)
     for row in grid:
-        print(row_to_string(row))
-        
-test_grid = [[0,0,0,1,0],[0,0,0,1,0],[0,0,0,0,0]]
-test_list = [0,0,0,0,0,0]
+        print(f'|{row_to_string(row)}|')
+    print(bottom_line)
+    
+test_grid = grid.new_grid()
 test_block = {'x': 2, 'y':0}
 
-print(cell_to_string(test_grid[0][3]))
-print(row_to_string(test_grid[0]))
+#print(cell_to_string(test_grid[0][3]))
+#print(row_to_string(test_grid[0]))
+view_grid(test_grid)
