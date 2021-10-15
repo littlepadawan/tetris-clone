@@ -9,27 +9,27 @@ def empty():
     # Represents an empty cell
     return 0
 
-def is_empty(cell_coordinates):
+def is_empty(x_coordinate):
     # Checks if a cell is empty
-    # cell_coordinates is a list index
-    if cell_coordinates == empty():
+    # x_coordinate - index of the cell to check
+    if x_coordinate == empty():
         return True
     else:
         return False
 
-def empty_cell(list_index, cell_index):
+def empty_cell(row, x_coordinate):
     # Empties a cell
-    # list_num is the list to change
-    # cell_num is the list index to change
-    list_index[cell_index] = empty()
-    return list_index
+    # row - list containing the cell to change
+    # x_coordinate - the cell to change
+    row[x_coordinate] = empty()
+    return row
 
-def occupy_cell(list_index, cell_index):
+def occupy_cell(row, x_coordinate):
     # Occupies a cell
-    # list_num is the list to change
-    # cell_num is the list index to change
-    list_index[cell_index] = occupied()
-    return list_index
+    # row - list containing the cell to change
+    # x_coordinate - the cell to change
+    row[x_coordinate] = occupied()
+    return row
 
 def move_down(block, grid):
     # Move block one step down if cell under is empty
