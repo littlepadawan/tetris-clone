@@ -1,6 +1,8 @@
 import grid
 import time
 
+block = {'x': 4, 'y': 0}
+
 def occupied():
     # Represents an occupied cell
     return 1
@@ -36,7 +38,9 @@ def move_down(block, grid):
     try:
         next_y = grid[block['y']+1][block['x']]
         if is_empty(next_y) == True:
+            empty_cell(grid[block['y']], block['x'])
             block['y'] = block['y']+1
+            occupy_cell(grid[block['y']], block['x'])
             return(block, 'Its empty!')
         else:
             return(block, 'Its not empty!')
@@ -47,9 +51,10 @@ def move_left(block, grid):
     # Move block one step left if cell to the left is empty
     next_x = grid[block['y']][block['x']-1]
     if block['x'] > 0 and is_empty(next_x) == True:
-        print('Its empty')
+        empty_cell(grid[block['y']], block['x'])
         block['x'] = block['x']-1
-        return(block, 'Block x-coordinate updated!')
+        occupy_cell(grid[block['y']], block['x'])
+        return(block, 'Block moved one step to the left!')
     else:
         return(block, 'Collision')
     
@@ -58,9 +63,10 @@ def move_right(block, grid):
     try:
         next_x = grid[block['y']][block['x']+1]
         if block['x'] < len(grid[block['y']]) and is_empty(next_x) == True:
-            print('Its empty')
+            empty_cell(grid[block['y']], block['x'])
             block['x'] = block['x']+1
-            return(block, 'Block x-coordinate updated!')
+            occupy_cell(grid[block['y']], block['x'])
+            return(block, 'Block moved one step to the right!')
         else:
             return(block, 'Collision')
     except IndexError:
@@ -101,10 +107,12 @@ def view_grid(grid):
     for row in grid:
         print(f'|{row_to_string(row)}|')
     print(bottom_line)
-    
-test_grid = grid.new_grid()
-test_block = {'x': 2, 'y':0}
 
-#print(cell_to_string(test_grid[0][3]))
-#print(row_to_string(test_grid[0]))
-view_grid(test_grid)
+def new_block(grid):
+    new_block = block
+    occupy_cell(grid[new_block['y']], new_block['x'])
+    return(block)
+
+test_grid = grid.new_grid()
+test_block = new_block(test_grid)
+
