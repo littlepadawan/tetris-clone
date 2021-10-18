@@ -5,7 +5,7 @@ starttime = time.time()
 
 tick_rate = 1
 
-block = {'x': 4, 'y': 0}
+block = {'x': 4, 'y': 0, 'state': 'active'}
 
 def occupied():
     # Represents an occupied cell
@@ -47,9 +47,11 @@ def move_down(block, grid):
             occupy_cell(grid[block['y']], block['x'])
             return(block, 'Its empty!')
         else:
-            return(block, 'Its not empty!')
+            block['state'] = 'passive'
+            return(block)
     except IndexError:
-        return(block, 'Hit ground')
+        block['state'] = 'passive'
+        return(block)
 
 def move_left(block, grid):
     # Move block one step left if cell to the left is empty
@@ -60,7 +62,8 @@ def move_left(block, grid):
         occupy_cell(grid[block['y']], block['x'])
         return(block, 'Block moved one step to the left!')
     else:
-        return(block, 'Collision')
+        block['state'] = 'passive'
+        return(block)
     
 def move_right(block, grid):
     # Move block one step right if cell to the right is empty
@@ -72,9 +75,11 @@ def move_right(block, grid):
             occupy_cell(grid[block['y']], block['x'])
             return(block, 'Block moved one step to the right!')
         else:
-            return(block, 'Collision')
+            block['state'] = 'passive'
+            return(block)
     except IndexError:
-        return(block, 'You are at the border')
+        block['state'] = 'passive'
+        return(block)
         
 def move_sideways(direction, block, grid):
     # Move block sideways depending on input
@@ -126,12 +131,6 @@ def new_grid():
     return grid
 
 
-
-
-def print_lists(a):
-    for element in a:
-        print(element)
-
 def random_user_input():
     inp = randint(0, 3)
     if inp is 0:
@@ -147,9 +146,6 @@ def move_block(rand, block, grid):
     else:
         move_down(block, grid)
 
-test_grid = new_grid()
-test_block = new_block(test_grid)
-
 def tick(grid):
     move_block(random_user_input(), test_block, test_grid)
     view_grid(grid)
@@ -159,3 +155,7 @@ def refresh_grid(grid):
         tick(grid)
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
 
+test_grid = new_grid()
+test_block = new_block(test_grid)
+
+refresh_grid(test_grid)
