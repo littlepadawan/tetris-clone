@@ -1,12 +1,14 @@
 import time
 from random import randint
+import pygame
 
 starttime = time.time()
 
 tick_rate = 1
 
 game = 'on'
-block = {'x': 4, 'y': 0, 'state': 'active'}
+block_origin = {'x': 4, 'y': 0, 'state': 'active'}
+block_list=[]
 
 def new_grid():
     grid = []
@@ -17,8 +19,10 @@ def new_grid():
     return grid
 
 def new_block(grid):
-    new_block = block
+    new_block = block_origin.copy()
+    block_list.append(new_block)
     occupy_cell(grid[new_block['y']], new_block['x'])
+    print('hej')
     return(new_block)
 
 def occupied():
@@ -59,7 +63,7 @@ def move_down(block, grid):
             empty_cell(grid[block['y']], block['x'])
             block['y'] = block['y']+1
             occupy_cell(grid[block['y']], block['x'])
-            return(block, 'Its empty!')
+            return(block)
         else:
             block['state'] = 'passive'
             return(block)
@@ -74,7 +78,7 @@ def move_left(block, grid):
         empty_cell(grid[block['y']], block['x'])
         block['x'] = block['x']-1
         occupy_cell(grid[block['y']], block['x'])
-        return(block, 'Block moved one step to the left!')
+        return(block)
     else:
         return(block)
     
@@ -86,7 +90,7 @@ def move_right(block, grid):
             empty_cell(grid[block['y']], block['x'])
             block['x'] = block['x']+1
             occupy_cell(grid[block['y']], block['x'])
-            return(block, 'Block moved one step to the right!')
+            return(block)
         else:
             return(block)
     except IndexError:
@@ -139,30 +143,29 @@ def random_user_input():
 
 def move_block(rand, block, grid):
     if rand == 'left' or rand == 'right':
-        move_down(block, grid)
-        move_sideways(rand, block, grid)
+        block = move_down(block, grid)
+        block = move_sideways(rand, block, grid)
     else:
-        move_down(block, grid)
+        block = move_down(block, grid)
 
 def tick(grid, block):
     if block['state'] == 'active': 
         move_block(random_user_input(), block, grid)
         view_grid(grid)
     else:
-        global game #WHYYY?!!!!
-        game = 'over'
+        new_block(grid)
 
-            
+        #global game
+        #game = 'over'
 
 def refresh_grid(grid, block):
     while game == 'on':
-        tick(grid, block)
+        tick(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
 
     print('Game over')
         
 test_grid = new_grid()
 test_block = new_block(test_grid)
-
 
 refresh_grid(test_grid, test_block)
