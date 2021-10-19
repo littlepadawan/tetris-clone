@@ -1,12 +1,14 @@
 import time
 from random import randint
-import pygame
+from pynput import keyboard
 
 starttime = time.time()
 
-tick_rate = 1
+tick_rate = 2
 
 game = 'on'
+global direction
+direction = ''
 block_origin = {'x': 4, 'y': 0, 'state': 'active'}
 block_list=[]
 
@@ -22,7 +24,6 @@ def new_block(grid):
     new_block = block_origin.copy()
     block_list.append(new_block)
     occupy_cell(grid[new_block['y']], new_block['x'])
-    print('hej')
     return(new_block)
 
 def occupied():
@@ -132,40 +133,55 @@ def view_grid(grid):
         print(f'|{row_to_string(row)}|')
     print(bottom_line)
 
-def random_user_input():
-    inp = randint(0, 3)
-    if inp is 0:
-        return 'left'
-    elif inp is 1:
-        return 'right'
-    else:
-        return 'down'
+# def random_user_input():
+#     inp = randint(0, 3)
+#     if inp is 0:
+#         return 'left'
+#     elif inp is 1:
+#         return 'right'
+#     else:
+#         return 'down'
 
-def move_block(rand, block, grid):
-    if rand == 'left' or rand == 'right':
+def move_block(dirr, block, grid):
+    global direction
+    if dirr == 'left' or dirr == 'right':
         block = move_down(block, grid)
-        block = move_sideways(rand, block, grid)
+        block = move_sideways(dirr, block, grid)
+        direction = ''
     else:
         block = move_down(block, grid)
+    
 
 def tick(grid, block):
-    if block['state'] == 'active': 
-        move_block(random_user_input(), block, grid)
+    if block['state'] == 'active':
+        global direction
+        move_block(direction, block, grid)
         view_grid(grid)
     else:
         new_block(grid)
 
-        #global game
-        #game = 'over'
+#         global game
+#         game = 'over'
 
+def on_press(key):
+    global direction
+    if key == keyboard.Key.left:
+        direction = 'left'
+    elif key == keyboard.Key.right:
+        direction = 'right'
+   
+        
 def refresh_grid(grid, block):
+    global game
     while game == 'on':
         tick(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
 
-    print('Game over')
-        
+listener = keyboard.Listener(on_press=on_press)
+listener.start()
+
 test_grid = new_grid()
 test_block = new_block(test_grid)
 
 refresh_grid(test_grid, test_block)
+
