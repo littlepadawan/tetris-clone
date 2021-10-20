@@ -11,6 +11,26 @@ block_list = [] # Containing all created blocks
 block_origin = {'x': 4, 'y': 0, 'state': 'active'} # Block template
 direction = '' 
 
+def start_splash():
+#Startscreen splash
+    print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('\n       Block som rör sig nedåt\n')
+    print(' the groundbreaking tetris-like game\n\n')
+    print('   Use the Left and Right arrow keys')
+    print('          to move the blocks')
+    print('\n     Press Enter to start the game')
+    print('      Press Esc to quit the game')
+    print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n')
+
+def end_splash():
+#Endscreen splash
+    print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print('\n       Thank you for playing!')
+    print('\n     If you\'ve enjoyed the game,')
+    print('  please be on the lookout for more')
+    print('      games from Idgurd studios')
+    print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n')
+
 def new_grid():
     # Creates a grid containing 10 rows and 10 columns
     grid = []
