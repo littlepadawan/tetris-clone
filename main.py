@@ -144,7 +144,7 @@ def move_block(dirr, block, grid):
         direction = ''
     block = move_down(block, grid)
     
-def tick(grid, block): # change function name to refresh_grid?
+def refresh_grid(grid, block): 
     # If block is active, move it and print updated grid
     # If block is not active, create a new block
     if block['state'] == 'active':
@@ -163,11 +163,11 @@ def on_press(key):
     elif key == keyboard.Key.right:
         direction = 'right'
      
-def refresh_grid(grid, block): # change function name to play?
+def play(grid, block): 
     # While game is on, keep updating grid and creating new blocks
     global game
     while game == 'on':
-        tick(grid, block_list[-1])
+        refresh_grid(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
 
 listener = keyboard.Listener(on_press=on_press) # Event listener for keyboard
@@ -176,5 +176,5 @@ listener.start()
 test_grid = new_grid()
 test_block = new_block(test_grid)
 
-refresh_grid(test_grid, test_block)
+play(test_grid, test_block)
 
