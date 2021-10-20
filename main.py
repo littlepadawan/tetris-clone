@@ -4,7 +4,7 @@ from pynput import keyboard
 global direction
 
 starttime = time.time() # Time in seconds since 'epoch'
-tick_rate = 2 # Frequency of refreshing grid (in seconds)
+tick_rate = 0.5 # Frequency of refreshing grid (in seconds)
 
 game = 'on' # Game state
 block_list = [] # Containing all created blocks
@@ -152,29 +152,46 @@ def refresh_grid(grid, block):
         move_block(direction, block, grid)
         view_grid(grid)
     else:
-        new_block(grid)
+        global game
+        if grid[0][4] == empty():
+            new_block(grid)
+        else:
+            game = 'over'
 
 def on_press(key):
     # If user presses left arrow key or right arrow key,
     # set direction to left respective right
     global direction
+    global game
     if key == keyboard.Key.left:
         direction = 'left'
-    elif key == keyboard.Key.right:
+    if key == keyboard.Key.right:
         direction = 'right'
-     
+    if key == keyboard.Key.esc:
+        game = 'over'
+        
 def play(grid, block): 
     # While game is on, keep updating grid and creating new blocks
     global game
     while game == 'on':
         refresh_grid(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
+    print('over')
+    #end_splash()
+        
+def start_game():
+    matrix = new_grid()
+    first_block = new_block(matrix)
+    play(matrix, first_block)
 
-listener = keyboard.Listener(on_press=on_press) # Event listener for keyboard
+    
+listener = keyboard.Listener(on_press = on_press) # Event listener for keyboard
 listener.start()
 
-test_grid = new_grid()
-test_block = new_block(test_grid)
+#start_splash()
 
-play(test_grid, test_block)
+start_game()
+
+
+
 
