@@ -1,18 +1,18 @@
 import time
-from random import randint
 from pynput import keyboard
 
-starttime = time.time()
-
-tick_rate = 2
-
-game = 'on'
 global direction
-direction = ''
-block_origin = {'x': 4, 'y': 0, 'state': 'active'}
-block_list=[]
+
+starttime = time.time() # Time in seconds since 'epoch'
+tick_rate = 2 # Frequency of refreshing grid (in seconds)
+
+game = 'on' # Game state
+block_list = [] # Containing all created blocks
+block_origin = {'x': 4, 'y': 0, 'state': 'active'} # Block template
+direction = '' 
 
 def new_grid():
+    # Creates a grid containing 10 rows and 10 columns
     grid = []
     for x in range(10):
         grid.append([])
@@ -21,6 +21,7 @@ def new_grid():
     return grid
 
 def new_block(grid):
+    # Creates a block and puts it on the grid
     new_block = block_origin.copy()
     block_list.append(new_block)
     occupy_cell(grid[new_block['y']], new_block['x'])
@@ -133,26 +134,19 @@ def view_grid(grid):
         print(f'|{row_to_string(row)}|')
     print(bottom_line)
 
-# def random_user_input():
-#     inp = randint(0, 3)
-#     if inp is 0:
-#         return 'left'
-#     elif inp is 1:
-#         return 'right'
-#     else:
-#         return 'down'
-
 def move_block(dirr, block, grid):
+    # Moves block
+    # Always moves block one step down if possible
+    # Moves block sideways depending on user input
     global direction
     if dirr == 'left' or dirr == 'right':
-        block = move_down(block, grid)
         block = move_sideways(dirr, block, grid)
         direction = ''
-    else:
-        block = move_down(block, grid)
+    block = move_down(block, grid)
     
-
-def tick(grid, block):
+def tick(grid, block): # change function name to refresh_grid?
+    # If block is active, move it and print updated grid
+    # If block is not active, create a new block
     if block['state'] == 'active':
         global direction
         move_block(direction, block, grid)
@@ -160,24 +154,23 @@ def tick(grid, block):
     else:
         new_block(grid)
 
-#         global game
-#         game = 'over'
-
 def on_press(key):
+    # If user presses left arrow key or right arrow key,
+    # set direction to left respective right
     global direction
     if key == keyboard.Key.left:
         direction = 'left'
     elif key == keyboard.Key.right:
         direction = 'right'
-   
-        
-def refresh_grid(grid, block):
+     
+def refresh_grid(grid, block): # change function name to play?
+    # While game is on, keep updating grid and creating new blocks
     global game
     while game == 'on':
         tick(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
 
-listener = keyboard.Listener(on_press=on_press)
+listener = keyboard.Listener(on_press=on_press) # Event listener for keyboard
 listener.start()
 
 test_grid = new_grid()
