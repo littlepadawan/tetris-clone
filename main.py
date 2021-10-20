@@ -21,6 +21,10 @@ def start_splash():
     print('\n     Press Enter to start the game')
     print('      Press Esc to quit the game')
     print('\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n')
+    
+    user_input = input('')
+    if user_input == '':
+        start_game()
 
 def end_splash():
 #Endscreen splash
@@ -196,22 +200,14 @@ def play(grid, block):
     while game == 'on':
         refresh_grid(grid, block_list[-1])
         time.sleep(tick_rate - ((time.time() - starttime) % tick_rate))
-    print('over')
-    #end_splash()
+    end_splash()
         
 def start_game():
     matrix = new_grid()
     first_block = new_block(matrix)
     play(matrix, first_block)
-
     
 listener = keyboard.Listener(on_press = on_press) # Event listener for keyboard
 listener.start()
 
-#start_splash()
-
-start_game()
-
-
-
-
+start_splash()
